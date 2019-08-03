@@ -1,6 +1,6 @@
 package com.gojek.parking.model;
 
-public abstract class Slot implements Comparable<Slot>{
+public abstract class Slot {
 
 	private int id;
 	private Vehicle vehicle;

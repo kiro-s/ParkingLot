@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
 
+import com.gojek.parking.comparator.SlotDistanceComaparator;
+
 public class ParkingLot {
 
 	private int size=0;
@@ -21,7 +23,7 @@ public class ParkingLot {
 		this.filledSlots=new HashMap<Integer, Slot>();
 		this.colorSlotIdMap=new HashMap<String, Set<Integer>>();
 		this.regNoSlotIdMap=new HashMap<String, Integer>();
-		this.availableSlots=new PriorityQueue<Slot>();
+		this.availableSlots=new PriorityQueue<Slot>(new SlotDistanceComaparator());
 	}
 	
 	

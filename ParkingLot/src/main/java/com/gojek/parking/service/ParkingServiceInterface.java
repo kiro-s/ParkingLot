@@ -4,19 +4,19 @@ import com.gojek.parking.model.Vehicle;
 
 public interface ParkingServiceInterface {
 
-	public void createParkingLot(int size);
+	public void createParkingLot(int size) throws Exception;
 	
-	public Integer park(Vehicle vehicle);
+	public Integer park(Vehicle vehicle) throws Exception;
 	
-	public void unPark(Integer slotNumber);
+	public void unPark(Integer slotNumber) throws Exception;
 	
-	public void getStatus();
+	public void getStatus() throws Exception;
 	
-	public void getRegNumbersForColor(String color);
+	public void getRegNumbersForColor(String color) throws Exception;
 	
-	public void getSlotNumbersForColor(String color);
+	public void getSlotNumbersForColor(String color) throws Exception;
 	
-	public void getSlotNoFomRegistrationNumber(String registrationNo);
+	public void getSlotNoFomRegistrationNumber(String registrationNo) throws Exception;
 	
 	public void doCleanup();
 }

@@ -6,12 +6,18 @@ import java.io.InputStreamReader;
 public class CommandLineProcessor extends Processor{
 
 	public void process() throws Exception {
-		BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
-        
-        
+		BufferedReader bufferReader=null;
+		try {
+		bufferReader = new BufferedReader(new InputStreamReader(System.in));
         while(true) {
-        	String inputString = bufferRead.readLine();
-        	ExecuteInstruction(inputString);
+        	String line = bufferReader.readLine();
+        	validateCommandsInput(line);
+        	ExecuteInstruction(line);
+        }
+		}
+        finally {
+        	if(bufferReader!=null)
+        		bufferReader.close();
         }
 	}
 

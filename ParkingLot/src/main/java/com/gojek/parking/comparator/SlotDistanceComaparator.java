@@ -6,7 +6,6 @@ import com.gojek.parking.model.Slot;
 
 public class SlotDistanceComaparator implements Comparator<Slot>{
 
-	@Override
 	public int compare(Slot s1, Slot s2) {
 		 if (s1.getDistance() > s2.getDistance()) 
              return 1; 

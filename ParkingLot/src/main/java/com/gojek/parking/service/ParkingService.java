@@ -16,7 +16,7 @@ public class ParkingService implements ParkingServiceInterface{
 	
 	private ParkingLot parkingLot;
 	
-
+	// initializing parking lot with all slots available
 	public void createParkingLot(int size) throws Exception{
 		if(parkingLot!=null)
 			throw new ParkingException("ParkingLot is Already Created",ExceptionCode.ERROR_501);
@@ -27,7 +27,8 @@ public class ParkingService implements ParkingServiceInterface{
 		System.out.println("Created a parking lot with "+size+" slots");
 	}
 
-	public Integer park(Vehicle vehicle) throws Exception{
+	//park vehicle in nearest available slot
+	public void park(Vehicle vehicle) throws Exception{
 		if(parkingLot.getAvailableSlots().isEmpty()) {
 			throw new ParkingException("Sorry, parking lot is full",ExceptionCode.ERROR_501);
 		}
@@ -37,9 +38,9 @@ public class ParkingService implements ParkingServiceInterface{
 		parkingLot.addSlotToColor(vehicle.getColor(), slot.getId());
 		parkingLot.getRegNoSlotIdMap().put(vehicle.getRegistrationNo(), slot.getId());
 		System.out.println("Allocated slot number: "+slot.getId());
-		return slot.getId();
 	}
 
+	//remove vehicle from a slot
 	public void unPark(Integer slotNumber) throws Exception{
 		if(slotNumber>parkingLot.getSize())
 			throw new ParkingException("Slot is out of parkingLotSize: "+slotNumber,ExceptionCode.ERROR_501);
@@ -57,8 +58,9 @@ public class ParkingService implements ParkingServiceInterface{
 			throw new ParkingException("Slot is Already Empty: "+slotNumber,ExceptionCode.ERROR_502);
 		}
 	}
-
-	public void getStatus() throws Exception{
+	
+	//print details of every parked vehicle
+	public void printStatus() throws Exception{
 		
 		System.out.println("Slot No. \t Registration No \t Colour");
 		for (Integer slotNumber : parkingLot.getFilledSlots().keySet()) {
@@ -69,7 +71,8 @@ public class ParkingService implements ParkingServiceInterface{
 			throw new ParkingException("Parking Lot is Empty",ExceptionCode.ERROR_502);
 	}
 
-	public void getRegNumbersForColor(String color) throws Exception{
+	//print all vehicles of particular color
+	public void printRegistrationNumbersForColor(String color) throws Exception{
 		if(!parkingLot.getColorSlotIdMap().containsKey(color))
 			throw new ParkingException("Parking Lot has no car of this Color",ExceptionCode.ERROR_501);
 		List<String> regNumbers=new ArrayList<String>();
@@ -79,7 +82,8 @@ public class ParkingService implements ParkingServiceInterface{
 		System.out.println(regNumbers.stream().collect(Collectors.joining(",")).toString());
 	}
 
-	public void getSlotNumbersForColor(String color) throws Exception{
+	//print all slot filled with a same colored vehicle
+	public void printSlotNumbersForColor(String color) throws Exception{
 		if(!parkingLot.getColorSlotIdMap().containsKey(color))
 			throw new ParkingException("Parking Lot has no car of this Color",ExceptionCode.ERROR_501);
 		
@@ -87,7 +91,8 @@ public class ParkingService implements ParkingServiceInterface{
 		System.out.println(slots.stream().map(a -> String.valueOf(a)).collect(Collectors.joining(",")));
 	}
 
-	public void getSlotNoFomRegistrationNumber(String registrationNo) throws Exception{
+	// print slot number for a particular vehicle
+	public void printSlotNoFomRegistrationNumber(String registrationNo) throws Exception{
 		if(parkingLot.getRegNoSlotIdMap().containsKey(registrationNo))
 			System.out.println(parkingLot.getRegNoSlotIdMap().get(registrationNo));
 		else
@@ -97,6 +102,7 @@ public class ParkingService implements ParkingServiceInterface{
 				
 	}
 
+	// cleanup for garbage collection.
 	public void doCleanup() {
 		parkingLot=null;
 	}

@@ -12,16 +12,12 @@ public abstract class Processor {
 	
 	private ParkingServiceInterface parkingService=new ParkingService();
 
+	//Execute each command
 	public void ExecuteInstruction(String inputStr) throws Exception {
 		try{
 		String[] input = inputStr.split(" ");
 		
 		CommandsConstants command = CommandsConstants.findByName(input[0]);
-		
-		if(command == null) {
-			System.out.println("Invalid command");
-			return;
-		}
 		
 		switch(command) {
 		case CREATE:
@@ -39,16 +35,16 @@ public abstract class Processor {
 			parkingService.unPark(slotNumber);
 			break;
 		case STATUS:
-			parkingService.getStatus();
+			parkingService.printStatus();
 			break;
 		case REG_NUMBER_FOR_CARS_WITH_COLOUR:
-			parkingService.getRegNumbersForColor(input[1]);
+			parkingService.printRegistrationNumbersForColor(input[1]);
 			break;
 		case SLOT_NUMBERS_FOR_CARS_WITH_COLOUR:
-			parkingService.getSlotNumbersForColor(input[1]);
+			parkingService.printSlotNumbersForColor(input[1]);
 			break;
 		case SLOT_NUMBER_FOR_REGISTRATION_NUMBER:
-			parkingService.getSlotNoFomRegistrationNumber(input[1]);
+			parkingService.printSlotNoFomRegistrationNumber(input[1]);
 			break;
 		case EXIT:
 			parkingService.doCleanup();
@@ -63,6 +59,64 @@ public abstract class Processor {
 		}
 		catch(Exception e) {
 			throw e;
+		}
+	}
+	
+	//Validate If Each Command has complete Arguments.
+	public void validateCommandsInput(String inputStr) throws Exception{
+		String[] inputStrArr = inputStr.split(" ");
+		CommandsConstants command = CommandsConstants.findByName(inputStrArr[0]);
+		if(command == null) {
+			System.out.println("Invalid command");
+			return;
+		}
+		
+		try {
+		switch(command) {
+		case CREATE:
+			if(inputStrArr.length != 2) {
+				throw new Exception();
+			} 
+			break;
+		case PARK:
+			if(inputStrArr.length != 3) {
+				throw new Exception();
+			} 
+			break;
+		case LEAVE:
+			if(inputStrArr.length != 2) {
+				throw new Exception();
+			} 
+			break;
+		case STATUS:
+			if(inputStrArr.length != 1) {
+				throw new Exception();
+			}
+			break;
+		case REG_NUMBER_FOR_CARS_WITH_COLOUR:
+			if(inputStrArr.length != 2) {
+				throw new Exception();
+			}
+			break;
+		case SLOT_NUMBERS_FOR_CARS_WITH_COLOUR:
+			if(inputStrArr.length != 2) {
+				throw new Exception();
+			}
+			break;
+		case SLOT_NUMBER_FOR_REGISTRATION_NUMBER:
+			if(inputStrArr.length != 2) {
+				throw new Exception();
+			}
+			break;
+		case EXIT:
+			if(inputStrArr.length != 1) {
+				throw new Exception();
+			}
+			break;
+		}
+		}
+		catch(Exception e) {
+			throw new Exception("Invalid no of arguments for command : " + command);
 		}
 	}
 	public abstract void process() throws Exception;

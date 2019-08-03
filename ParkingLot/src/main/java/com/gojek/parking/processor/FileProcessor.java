@@ -18,6 +18,7 @@ public class FileProcessor extends Processor{
 		BufferedReader br = new BufferedReader(new FileReader(inputFile));
 		String line;
 		while ((line = br.readLine()) != null) {
+			validateCommandsInput(line);
 			ExecuteInstruction(line);
 		}
 	}

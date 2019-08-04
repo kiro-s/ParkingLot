@@ -15,7 +15,7 @@ public class ProcessorTest {
 	@BeforeClass
 	public static void setUp() throws Exception {
 		processor = new CommandLineProcessor();
-		processor.validateCommandsInput("create_parking_lot 6");
+		processor.ExecuteInstruction("create_parking_lot 6");
 	}
 
 	@Test

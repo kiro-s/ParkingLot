@@ -3,14 +3,14 @@ package com.gojek.parking.processor;
 import com.gojek.parking.constants.CommandsConstants;
 import com.gojek.parking.constants.ExceptionCode;
 import com.gojek.parking.exception.ParkingException;
+import com.gojek.parking.factory.ParkingFactory;
 import com.gojek.parking.model.Car;
 import com.gojek.parking.model.Vehicle;
-import com.gojek.parking.service.ParkingService;
 import com.gojek.parking.service.ParkingServiceInterface;
 
 public abstract class Processor {
 	
-	private ParkingServiceInterface parkingService=new ParkingService();
+	private ParkingServiceInterface parkingService=ParkingFactory.getParkingService();
 
 	//Execute each command
 	public void ExecuteInstruction(String inputStr) throws Exception {

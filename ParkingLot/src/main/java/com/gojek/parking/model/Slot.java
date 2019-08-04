@@ -5,9 +5,6 @@ public abstract class Slot {
 	private int id;
 	private Vehicle vehicle;
 	
-	
-	
-
 	public Vehicle getVehicle() {
 		return vehicle;
 	}
@@ -36,8 +33,4 @@ public abstract class Slot {
 
 	public abstract Integer getDistance();
 	
-	public int compareTo(Slot o) {
-		// TODO Auto-generated method stub
-		return o.getDistance()-o.getDistance();
-	}
 }

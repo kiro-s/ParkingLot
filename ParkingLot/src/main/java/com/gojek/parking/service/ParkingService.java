@@ -1,13 +1,12 @@
 package com.gojek.parking.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.gojek.parking.constants.ExceptionCode;
 import com.gojek.parking.exception.ParkingException;
-import com.gojek.parking.model.LinearlyIncreasingSlot;
 import com.gojek.parking.model.ParkingLot;
 import com.gojek.parking.model.Slot;
 import com.gojek.parking.model.Vehicle;
@@ -21,9 +20,7 @@ public class ParkingService implements ParkingServiceInterface{
 		if(parkingLot!=null)
 			throw new ParkingException("ParkingLot is Already Created",ExceptionCode.ERROR_501);
 		parkingLot=new ParkingLot(size);
-		for(int i=0;i<size;i++) {
-			parkingLot.getAvailableSlots().add(new LinearlyIncreasingSlot(i+1));
-		}
+		SlotInitializer.initializeSlots(parkingLot);
 		System.out.println("Created a parking lot with "+size+" slots");
 	}
 
@@ -63,10 +60,13 @@ public class ParkingService implements ParkingServiceInterface{
 	public void printStatus() throws Exception{
 		
 		System.out.println("Slot No. \t Registration No \t Colour");
-		for (Integer slotNumber : parkingLot.getFilledSlots().keySet()) {
+		List<Integer> slots= new ArrayList<Integer>(parkingLot.getFilledSlots().keySet());
+		Collections.sort(slots);
+		for (Integer slotNumber : slots) {
 			Slot slot=parkingLot.getFilledSlots().get(slotNumber);
 			System.out.println(slotNumber+" \t "+slot.getVehicle().getRegistrationNo()+" \t "+slot.getVehicle().getColor());
 		}
+		
 		if(parkingLot.getFilledSlots().isEmpty())
 			throw new ParkingException("Parking Lot is Empty",ExceptionCode.ERROR_502);
 	}
@@ -75,8 +75,11 @@ public class ParkingService implements ParkingServiceInterface{
 	public void printRegistrationNumbersForColor(String color) throws Exception{
 		if(!parkingLot.getColorSlotIdMap().containsKey(color))
 			throw new ParkingException("Parking Lot has no car of this Color",ExceptionCode.ERROR_501);
+		
 		List<String> regNumbers=new ArrayList<String>();
-		for (Integer slotNumber : parkingLot.getColorSlotIdMap().get(color)) {
+		List<Integer> slots=new ArrayList<Integer>(parkingLot.getColorSlotIdMap().get(color));
+		Collections.sort(slots);
+		for (Integer slotNumber : slots) {
 			regNumbers.add(parkingLot.getFilledSlots().get(slotNumber).getVehicle().getRegistrationNo());
 		}
 		System.out.println(regNumbers.stream().collect(Collectors.joining(",")).toString());
@@ -87,7 +90,8 @@ public class ParkingService implements ParkingServiceInterface{
 		if(!parkingLot.getColorSlotIdMap().containsKey(color))
 			throw new ParkingException("Parking Lot has no car of this Color",ExceptionCode.ERROR_501);
 		
-		Set<Integer> slots=parkingLot.getColorSlotIdMap().get(color);
+		List<Integer> slots=new ArrayList<Integer>(parkingLot.getColorSlotIdMap().get(color));
+		Collections.sort(slots);
 		System.out.println(slots.stream().map(a -> String.valueOf(a)).collect(Collectors.joining(",")));
 	}
 

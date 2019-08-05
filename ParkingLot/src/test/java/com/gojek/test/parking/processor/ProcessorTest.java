@@ -1,4 +1,4 @@
-package com.gojek.test;
+package com.gojek.test.parking.processor;
 
 import static org.junit.Assert.fail;
 
@@ -76,7 +76,7 @@ public class ProcessorTest {
 	@Test
 	public void testPrintSlotNoFomRegistrationNumber() {
 		try {
-			String str="slot_number_for_registration_number KA-01-HH-3141";
+			String str="slot_number_for_registration_number Mh14-111";
 			processor.validateCommandsInput(str);
 			processor.ExecuteInstruction(str);
 		} catch (Exception e) {
